@@ -4,6 +4,7 @@
 
 @layer base {
   :root {
+    color-scheme: light;
     --bg-page: #FAF8F4;
     --navy-brand: #232D4B;
     --gold-brand: #FFD300;
@@ -14,6 +15,7 @@
   }
 
   .dark {
+    color-scheme: dark;
     --bg-page: #0C1019;
     --navy-brand: #8FA4DC;
     --gold-brand: #FFD300;
@@ -50,6 +52,87 @@
       radial-gradient(at 15% 85%, rgba(119, 145, 93, 0.12) 0px, transparent 45%);
     color: #F1F5F9;
   }
+}
+
+/* Fix 1: Stretch half-height corner gradients smoothly across full card height */
+.top-0.right-0.pointer-events-none,
+[class*="bg-gradient"].pointer-events-none.absolute {
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  border-radius: inherit !important;
+  mask-image: radial-gradient(ellipse at top right, rgba(0, 0, 0, 0.75) 0%, transparent 70%);
+  -webkit-mask-image: radial-gradient(ellipse at top right, rgba(0, 0, 0, 0.75) 0%, transparent 70%);
+}
+
+.dark .top-0.right-0.pointer-events-none,
+.dark [class*="bg-gradient"].pointer-events-none.absolute {
+  opacity: 0.35 !important;
+}
+
+/* Fix 2: Sleek Custom Scrollbars for Light & Dark Mode (No White Box) */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(148, 163, 184, 0.45) transparent;
+}
+
+.dark * {
+  scrollbar-color: rgba(148, 163, 184, 0.35) rgba(15, 23, 42, 0.5);
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(241, 245, 249, 0.5);
+  border-radius: 9999px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.65);
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.55);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: rgba(148, 163, 184, 0.35);
+  border-radius: 9999px;
+  border: 2px solid transparent;
+  background-clip: padding-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(100, 116, 139, 0.8);
+  background-clip: padding-box;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 211, 0, 0.55);
+  background-clip: padding-box;
+}
+
+/* Fix 3: Mild Heartbeat / Breathing Animation for Active Matrix Quadrants */
+@keyframes gentle-beat {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 2px 8px -2px rgba(35, 45, 75, 0.12);
+  }
+  50% {
+    transform: scale(1.03);
+    box-shadow: 0 8px 20px -4px rgba(220, 83, 0, 0.25);
+  }
+}
+
+.active-quadrant-beat {
+  animation: gentle-beat 2.6s ease-in-out infinite;
 }
 
 /* Apple Liquid Glass Utility Styles with Dark Mode Cohesion */
@@ -161,7 +244,6 @@
     font-size: 11pt !important;
   }
 
-  /* Hide screen-only interactive controls during print */
   header,
   nav,
   .no-print,
@@ -170,7 +252,6 @@
     display: none !important;
   }
 
-  /* Show only printable journey plan */
   #printable-journey-plan {
     display: block !important;
     width: 100% !important;
@@ -179,44 +260,6 @@
     box-shadow: none !important;
     border: none !important;
     background: #fff !important;
-  }
-
-  .print-page-break {
-    page-break-before: always;
-    break-before: page;
-  }
-
-  .print-avoid-break {
-    page-break-inside: avoid;
-    break-inside: avoid;
-  }
-}
-
-/* Print Stylesheet for Crisp PDF and Document Export */
-@media print {
-  body {
-    background-color: #FFFFFF !important;
-    color: #0F172A !important;
-    font-size: 11pt !important;
-  }
-
-  /* Hide screen-only interactive controls during print */
-  header,
-  nav,
-  .no-print,
-  button,
-  .print-hide {
-    display: none !important;
-  }
-
-  /* Show only printable journey plan */
-  #printable-journey-plan {
-    display: block !important;
-    width: 100% !important;
-    margin: 0 !important;
-    padding: 0 !important;
-    box-shadow: none !important;
-    border: none !important;
   }
 
   .print-page-break {
