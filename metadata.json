@@ -1,0 +1,6 @@
+{
+  "name": "AI Learning Journey Designer",
+  "description": "Design learning that develops capability, not just AI-assisted outputs. Interactive workshop tool for educators and learning designers.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

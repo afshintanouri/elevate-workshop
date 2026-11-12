@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Learning Journey Designer</title>
+  <meta name="description" content="Design learning that develops capability, not just AI-assisted outputs. Interactive workshop tool for educators and learning designers.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <div class="header-container">
+      <div class="brand-zone">
+        <div class="brand-badge" aria-hidden="true">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+          </svg>
+        </div>
+        <div>
+          <h1 class="brand-title">AI Learning Journey Designer</h1>
+          <p class="brand-sub">Design learning that develops capability, not just AI-assisted outputs</p>
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; gap: 0.5rem;">
+        <button id="theme-toggle-btn" class="btn btn-secondary" onclick="toggleTheme()" title="Toggle Dark/Light Mode">
+          <span id="theme-icon">🌙</span>
+        </button>
+        <button class="btn btn-secondary" onclick="clearAllData()">Clear Data</button>
+      </div>
+    </div>
+  </header>
+
+  <nav class="stepper-nav" aria-label="Step progress">
+    <ol class="stepper-container">
+      <li><button class="step-item active" onclick="renderStep(1)"><span class="step-number">Step 01</span><span class="step-title">Define</span></button></li>
+      <li><button class="step-item" onclick="renderStep(2)"><span class="step-number">Step 02</span><span class="step-title">Diagnose</span></button></li>
+      <li><button class="step-item" onclick="renderStep(3)"><span class="step-number">Step 03</span><span class="step-title">Cognitive</span></button></li>
+      <li><button class="step-item" onclick="renderStep(4)"><span class="step-number">Step 04</span><span class="step-title">Redesign</span></button></li>
+      <li><button class="step-item" onclick="renderStep(5)"><span class="step-number">Step 05</span><span class="step-title">Sequence</span></button></li>
+      <li><button class="step-item" onclick="renderStep(6)"><span class="step-number">Step 06</span><span class="step-title">Capability</span></button></li>
+      <li><button class="step-item" onclick="renderStep(7)"><span class="step-number">Step 07</span><span class="step-title">Plan</span></button></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- Step 1: Define -->
+    <section id="step-panel-1" class="step-panel active">
+      <div class="section-header">
+        <span class="section-kicker">Step 1: Current Activity</span>
+        <h2 class="section-title">“Start with something real.”</h2>
+        <p class="section-intro">Choose an existing learning activity, assessment, employee training activity or professional development exercise that you currently use or are familiar with.</p>
+      </div>
+
+      <div class="card">
+        <div class="form-group">
+          <label class="form-label" for="input-activity-name">1. Activity name</label>
+          <input type="text" id="input-activity-name" placeholder="e.g. Digital Marketing Strategy Project">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-learner-group">2. Learner group</label>
+          <input type="text" id="input-learner-group" placeholder="e.g. MBA students, graduate engineers, sales managers">
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-intended-capability">3. Intended capability</label>
+          <div class="form-hint">“What should participants ultimately be capable of doing?”</div>
+          <textarea id="input-intended-capability" rows="3" placeholder="e.g. Develop and defend an evidence-based digital marketing strategy."></textarea>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="input-current-activity">4. Current activity</label>
+          <div class="form-hint">“How does the activity currently work?” Briefly describe what learners do and produce.</div>
+          <textarea id="input-current-activity" rows="3" placeholder="Describe the current tasks and tools..."></textarea>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <span></span>
+        <button class="btn btn-primary" onclick="renderStep(2)">Diagnose the current design →</button>
+      </div>
+    </section>
+
+    <!-- Step 2: Diagnose -->
+    <section id="step-panel-2" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 2: Human-AI Matrix</span>
+        <h2 class="section-title">Where does cognitive agency sit?</h2>
+        <p class="section-intro">Select one or more quadrants that represent your CURRENT activity.</p>
+      </div>
+
+      <div id="diagnosis-matrix-container"></div>
+
+      <div class="card" style="margin-top: 1.5rem">
+        <label class="form-label" for="input-diagnosis-rationale">“Why did you place the activity here?”</label>
+        <textarea id="input-diagnosis-rationale" rows="3" placeholder="Reflect on why this placement represents current practice..."></textarea>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="renderStep(1)">← Back: Define</button>
+        <button class="btn btn-primary" onclick="renderStep(3)">Next: Cognitive Work →</button>
+      </div>
+    </section>
+
+    <!-- Step 3: Cognitive Work -->
+    <section id="step-panel-3" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 3: Cognitive Allocation</span>
+        <h2 class="section-title">“Where is the learner doing the difficult cognitive work?”</h2>
+        <p class="section-intro">Evaluate effort across Upstream framing, Production execution, and Downstream critical defense.</p>
+      </div>
+
+      <div class="card">
+        <div id="cognitive-observation-text" style="font-weight: 700; color: #0F766E; margin-bottom: 1rem"></div>
+        <p style="font-size: 0.85rem; color: #64748B">Rule-based profile summary based on your inputs.</p>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="renderStep(2)">← Back: Diagnose</button>
+        <button class="btn btn-primary" onclick="renderStep(4)">Next: Redesign Options →</button>
+      </div>
+    </section>
+
+    <!-- Step 4: Redesign -->
+    <section id="step-panel-4" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 4: Redesign Options</span>
+        <h2 class="section-title">“Don’t choose a quadrant. Design the journey.”</h2>
+        <p class="section-intro">Different stages of learning can deliberately use different human-AI configurations.</p>
+      </div>
+
+      <div class="card">
+        <h3 style="font-size:1.1rem; font-weight:800; margin-bottom:0.5rem">Quadrant Blueprints</h3>
+        <p style="font-size:0.85rem; color:#475569">Review how each quadrant reallocates cognitive work. Next, you will sequence these into a deliberate developmental journey.</p>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="renderStep(3)">← Back: Cognitive</button>
+        <button class="btn btn-primary" onclick="renderStep(5)">Next: Build Sequence →</button>
+      </div>
+    </section>
+
+    <!-- Step 5: Sequence -->
+    <section id="step-panel-5" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 5: Sequence Builder</span>
+        <h2 class="section-title">“Build the learning journey.”</h2>
+        <p class="section-intro">“There is no universal correct journey. The important question is whether the movement is deliberate and supports the capability you want to develop.”</p>
+      </div>
+
+      <div class="card">
+        <label class="form-label">+ Add Stage From Quadrant:</label>
+        <div style="display:flex; gap:0.5rem; flex-wrap:wrap">
+          <button class="btn btn-secondary" onclick="addJourneyStage('ENHANCE')">+ ENHANCE</button>
+          <button class="btn btn-secondary" onclick="addJourneyStage('EMPOWER')">+ EMPOWER</button>
+          <button class="btn btn-secondary" onclick="addJourneyStage('ADOPT')">+ ADOPT</button>
+          <button class="btn btn-secondary" onclick="addJourneyStage('SHAPE')">+ TRANSFORM</button>
+        </div>
+      </div>
+
+      <div id="journey-stages-list"></div>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="renderStep(4)">← Back: Redesign</button>
+        <button class="btn btn-primary" onclick="renderStep(6)">Next: Capability Check →</button>
+      </div>
+    </section>
+
+    <!-- Step 6: Capability -->
+    <section id="step-panel-6" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 6: Assessment</span>
+        <h2 class="section-title">“How will you know capability has developed?”</h2>
+        <p class="section-intro">“A polished output is not necessarily strong evidence of human capability.”</p>
+      </div>
+
+      <div class="card">
+        <p style="font-size:0.9rem; color:#0F172A; margin-bottom:1rem">Select evidence that demonstrates independent human capability beyond AI polish:</p>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:0.5rem; font-size:0.85rem">
+          <label><input type="checkbox" checked> Explain their reasoning</label>
+          <label><input type="checkbox" checked> Defend their choices</label>
+          <label><input type="checkbox" checked> Critique AI output</label>
+          <label><input type="checkbox"> Identify limitations</label>
+          <label><input type="checkbox"> Identify assumptions</label>
+          <label><input type="checkbox"> Reject an AI recommendation</label>
+          <label><input type="checkbox"> Contextual judgement</label>
+          <label><input type="checkbox"> Final accountability</label>
+        </div>
+      </div>
+
+      <div class="nav-actions">
+        <button class="btn btn-secondary" onclick="renderStep(5)">← Back: Sequence</button>
+        <button class="btn btn-primary" onclick="renderStep(7)">Generate Journey Plan →</button>
+      </div>
+    </section>
+
+    <!-- Step 7: Plan -->
+    <section id="step-panel-7" class="step-panel">
+      <div class="section-header">
+        <span class="section-kicker">Step 7: Executive Summary</span>
+        <h2 class="section-title">AI Learning Journey Plan</h2>
+        <div style="margin-top:0.75rem; display:flex; gap:0.5rem">
+          <button class="btn btn-primary" onclick="window.print()">Print / Save as PDF</button>
+          <button class="btn btn-secondary" onclick="renderStep(5)">Edit Journey</button>
+        </div>
+      </div>
+
+      <div id="plan-render-container"></div>
+    </section>
+
+    <!-- Reflection Banner -->
+    <aside id="reflection-banner" class="reflection-banner" style="display:none"></aside>
+  </main>
+
+  <footer style="border-top:1px solid rgba(0,0,0,0.1); padding:1.25rem 1.5rem; font-size:0.75rem; color:var(--text-muted); text-align:center">
+    <div style="max-width:1100px; margin:0 auto; display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.75rem">
+      <div>
+        <strong>Framework: Dr Afshin Tanouri</strong> · <a href="mailto:afshin.tanouri@flinders.edu.au" style="color:var(--text-main); font-weight:700">afshin.tanouri@flinders.edu.au</a>
+      </div>
+      <div>
+        100% Client-Side Privacy · Your responses stay in this browser
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
