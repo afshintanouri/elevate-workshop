@@ -119,20 +119,67 @@
   background-clip: padding-box;
 }
 
-/* Fix 3: Mild Heartbeat / Breathing Animation for Active Matrix Quadrants */
-@keyframes gentle-beat {
-  0%, 100% {
-    transform: scale(1);
-    box-shadow: 0 2px 8px -2px rgba(35, 45, 75, 0.12);
-  }
-  50% {
-    transform: scale(1.03);
-    box-shadow: 0 8px 20px -4px rgba(220, 83, 0, 0.25);
+/* Fix 3: Traveling Neon LED Stroke Around Active Matrix Quadrants */
+@property --led-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes led-orbit {
+  to {
+    --led-angle: 360deg;
   }
 }
 
 .active-quadrant-beat {
-  animation: gentle-beat 2.6s ease-in-out infinite;
+  position: relative;
+  z-index: 1;
+  border-color: rgba(220, 83, 0, 0.25) !important;
+}
+
+/* Crisp Rotating Neon LED Border Stroke */
+.active-quadrant-beat::before {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  padding: 2.5px;
+  background: conic-gradient(
+    from var(--led-angle),
+    transparent 25%,
+    #DC5300 68%,
+    #FFD300 88%,
+    #FFFFFF 96%,
+    #DC5300 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  animation: led-orbit 2.8s linear infinite;
+}
+
+/* Soft Glowing Neon Aura Trailing the LED Stroke */
+.active-quadrant-beat::after {
+  content: "";
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  padding: 3px;
+  background: conic-gradient(
+    from var(--led-angle),
+    transparent 45%,
+    rgba(220, 83, 0, 0.65) 80%,
+    rgba(255, 211, 0, 0.9) 100%
+  );
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  filter: blur(4px);
+  opacity: 0.85;
+  pointer-events: none;
+  animation: led-orbit 2.8s linear infinite;
 }
 
 /* Apple Liquid Glass Utility Styles with Dark Mode Cohesion */
