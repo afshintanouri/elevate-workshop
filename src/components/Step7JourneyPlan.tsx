@@ -1,8 +1,3 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
-
 import React, { useState } from 'react';
 import { AppState, QuadrantId } from '../types';
 import { MATRIX_QUADRANTS, MATRIX_AXES, AUTHOR_ATTRIBUTION } from '../config/matrixConfig';
@@ -84,9 +79,8 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `AI-Learning-Journey-${(state.activity.name || 'Plan')
-      .replace(/[^a-zA-Z0-9]/g, '-')
-      .toLowerCase()}.json`;
+    const safeName = (state.activity.name || 'Plan').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    a.download = 'AI-Learning-Journey-' + safeName + '.json';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
@@ -95,57 +89,63 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
 
   const handleDownloadMarkdown = () => {
     const mdLines = [
-      `# AI Learning Journey Plan: ${state.activity.name || 'Untitled Activity'}`,
-      `*Academic Framework: ${AUTHOR_ATTRIBUTION.name} (${AUTHOR_ATTRIBUTION.institution})*`,
-      `*Contact: ${AUTHOR_ATTRIBUTION.email}*`,
-      `*Workshop: Building Workforce Capability That Matters in the Age of AI*`,
-      `*Generated: ${new Date().toLocaleDateString()}*`,
+      '# AI Learning Journey Plan: ' + (state.activity.name || 'Untitled Activity'),
+      '*Academic Framework: ' + AUTHOR_ATTRIBUTION.name + ' (' + AUTHOR_ATTRIBUTION.institution + ')*',
+      '*Contact: ' + AUTHOR_ATTRIBUTION.email + '*',
+      '*Workshop: Building Workforce Capability That Matters in the Age of AI*',
+      '*Generated: ' + new Date().toLocaleDateString() + '*',
       '',
-      `## 1. Overview`,
-      `- **Target Learners:** ${state.activity.learnerGroup || 'Not specified'}`,
-      `- **Intended Capability:** ${state.activity.intendedCapability || 'Not specified'}`,
-      `- **Original Design:** ${state.activity.currentActivity || 'Not specified'}`,
+      '## 1. Overview',
+      '- **Target Learners:** ' + (state.activity.learnerGroup || 'Not specified'),
+      '- **Intended Capability:** ' + (state.activity.intendedCapability || 'Not specified'),
+      '- **Original Design:** ' + (state.activity.currentActivity || 'Not specified'),
       '',
-      `## 2. Current Design Diagnosis`,
-      `- **Initial Quadrants:** ${state.diagnosis.selectedQuadrants.join(', ')}`,
-      `- **Diagnosis Rationale:** ${state.diagnosis.rationale || 'Not specified'}`,
-      `- **Cognitive Profile:** Upstream (${state.cognitiveProfile.upstream.level}) → Production (${state.cognitiveProfile.production.level}) → Downstream (${state.cognitiveProfile.downstream.level})`,
-      `- **Cognitive Observation:** ${observation}`,
+      '## 2. Current Design Diagnosis',
+      '- **Initial Quadrants:** ' + state.diagnosis.selectedQuadrants.join(', '),
+      '- **Diagnosis Rationale:** ' + (state.diagnosis.rationale || 'Not specified'),
+      '- **Cognitive Profile:** Upstream (' +
+        state.cognitiveProfile.upstream.level +
+        ') -> Production (' +
+        state.cognitiveProfile.production.level +
+        ') -> Downstream (' +
+        state.cognitiveProfile.downstream.level +
+        ')',
+      '- **Cognitive Observation:** ' + observation,
       '',
-      `## 3. Redesigned Journey Sequence`,
-      ...state.journey.map((s, idx) => [
-        `### Stage ${idx + 1}: ${s.stageTitle || 'Stage ' + (idx + 1)} (${s.quadrantId})`,
-        `- **AI Contribution (Delegated):** ${s.delegatedToAI || 'None'}`,
-        `- **Learner Cognitive Responsibility:** ${s.retainedForLearner || 'None'}`,
-        `- **Pedagogical Rationale:** ${s.rationale || 'None'}`,
-        '',
-      ]).flat(),
-      `## 4. Human-Owned Judgement & Accountability`,
-      `- **Ultimate Demonstration:** ${state.capability.ultimateDemonstration || 'Not specified'}`,
-      `- **Final Accountability:** ${state.capability.finalAccountability || 'Not specified'}`,
+      '## 3. Redesigned Journey Sequence',
+      ...state.journey
+        .map((s, idx) => [
+          '### Stage ' + (idx + 1) + ': ' + (s.stageTitle || 'Stage ' + (idx + 1)) + ' (' + s.quadrantId + ')',
+          '- **AI Contribution (Delegated):** ' + (s.delegatedToAI || 'None'),
+          '- **Learner Cognitive Responsibility:** ' + (s.retainedForLearner || 'None'),
+          '- **Pedagogical Rationale:** ' + (s.rationale || 'None'),
+          '',
+        ])
+        .flat(),
+      '## 4. Human-Owned Judgement & Accountability',
+      '- **Ultimate Demonstration:** ' + (state.capability.ultimateDemonstration || 'Not specified'),
+      '- **Final Accountability:** ' + (state.capability.finalAccountability || 'Not specified'),
       '',
-      `## 5. Evidence of Capability`,
-      ...state.capability.selectedEvidence.map((e) => `- [x] ${e}`),
-      state.capability.otherEvidence ? `- [x] Other: ${state.capability.otherEvidence}` : '',
+      '## 5. Evidence of Capability',
+      ...state.capability.selectedEvidence.map((e) => '- [x] ' + e),
+      state.capability.otherEvidence ? '- [x] Other: ' + state.capability.otherEvidence : '',
       '',
-      `---`,
-      `*“You didn’t simply add AI to the activity. You redesigned how learners encounter, use, evaluate and shape AI-enabled work.”*`,
+      '---',
+      '*“You didn’t simply add AI to the activity. You redesigned how learners encounter, use, evaluate and shape AI-enabled work.”*',
     ].filter(Boolean);
 
     const blob = new Blob([mdLines.join('\n')], { type: 'text/markdown' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `AI-Learning-Journey-${(state.activity.name || 'Plan')
-      .replace(/[^a-zA-Z0-9]/g, '-')
-      .toLowerCase()}.md`;
+    const safeName = (state.activity.name || 'Plan').replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+    a.download = 'AI-Learning-Journey-' + safeName + '.md';
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
-  // Helper to render mini 2x2 matrix for Before vs After comparison
   const renderMiniMatrix = (title: string, subtitle: string, highlightedIds: QuadrantId[], isAfter: boolean) => {
     return (
       <div className="bg-white border border-stone-200 rounded-xl p-4 shadow-2xs flex-1">
@@ -166,19 +166,19 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
                   .filter((v): v is number => v !== null)
               : [];
 
+            const boxClasses = isHighlighted
+              ? 'p-3 rounded-lg border flex flex-col items-center justify-center min-h-[70px] transition-all border-2 shadow-sm font-bold active-quadrant-beat'
+              : 'p-3 rounded-lg border flex flex-col items-center justify-center min-h-[70px] transition-all bg-stone-50 border-stone-200 text-stone-400 font-normal opacity-60';
+
             return (
               <div
                 key={qid}
-                className={`p-3 rounded-lg border flex flex-col items-center justify-center min-h-[70px] transition-all ${
-                  isHighlighted
-                    ? 'border-2 shadow-sm font-bold active-quadrant-beat'
-                    : 'bg-stone-50 border-stone-200 text-stone-400 font-normal opacity-60'
-                }`}
+                className={boxClasses}
                 style={{
                   borderColor: isHighlighted ? q.colors.accent : '#E2E8F0',
                   backgroundColor: isHighlighted ? q.colors.bg : '#F8FAFC',
                   color: isHighlighted ? q.colors.text : '#94A3B8',
-                  animationDelay: isHighlighted ? `${index * 0.2}s` : undefined,
+                  animationDelay: isHighlighted ? index * 0.2 + 's' : undefined,
                 }}
               >
                 <span className="text-[11px] uppercase tracking-wider font-extrabold">{q.name}</span>
@@ -207,7 +207,6 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
 
   return (
     <section aria-labelledby="plan-heading" className="max-w-5xl mx-auto space-y-8 pb-12">
-      {/* Action Toolbar (Screen Only) with Frosted Liquid Glass */}
       <div className="no-print glass-panel rounded-3xl p-4 sm:p-5 shadow-lg flex flex-wrap items-center justify-between gap-3 sticky top-[110px] z-20">
         <div className="flex items-center gap-2.5">
           <div className="w-8 h-8 rounded-full bg-[#77915D]/20 dark:bg-[#77915D]/30 flex items-center justify-center">
@@ -274,9 +273,7 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
         </div>
       </div>
 
-      {/* Printable Report Wrapper with Elevated Card Presence */}
       <div id="printable-journey-plan" className="glass-panel rounded-3xl p-6 sm:p-10 shadow-xl space-y-8 bg-white/90">
-        {/* Document Header */}
         <div className="border-b-2 border-[#232D4B] dark:border-white/20 pb-6">
           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
             <span className="text-xs font-mono font-extrabold uppercase tracking-widest text-[#DC5300] dark:text-[#FFD300] bg-orange-50/80 dark:bg-amber-500/15 px-2.5 py-1 rounded-md border border-orange-200/60 dark:border-amber-400/30">
@@ -294,7 +291,6 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
           </p>
         </div>
 
-        {/* Section 1: Intended Capability */}
         <div className="p-6 bg-white/90 dark:bg-slate-900/80 rounded-2xl border border-stone-200/80 dark:border-white/15 shadow-2xs print-avoid-break">
           <span className="text-xs font-extrabold uppercase tracking-wider text-[#DC5300] dark:text-[#FF7024] block mb-1">
             Intended Capability (What participants must ultimately be capable of doing)
@@ -304,7 +300,6 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
           </p>
         </div>
 
-        {/* Section 2: Before vs After Transformation Matrices */}
         <div className="print-avoid-break space-y-3.5">
           <div className="flex items-center justify-between">
             <h2 className="text-sm font-extrabold uppercase tracking-wider text-[#232D4B] dark:text-[#F1F5F9]">
@@ -330,7 +325,6 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
             )}
           </div>
 
-          {/* Fix 4: High-contrast visible callout box under Before/After in both Light & Dark Mode */}
           <div className="p-4 bg-gradient-to-r from-[#FAF3E0] via-[#FFF9DB] to-[#F6EEE1] dark:from-[#1E293B] dark:via-[#243247] dark:to-[#1E293B] border border-[#E6BE00]/60 dark:border-[#FFD300]/45 rounded-2xl text-center shadow-sm">
             <p className="text-xs sm:text-sm font-serif italic font-bold text-[#232D4B] dark:text-[#FFD300]">
               “You didn’t simply add AI to the activity. You redesigned how learners encounter, use, evaluate and shape AI-enabled work.”
@@ -338,7 +332,6 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
           </div>
         </div>
 
-        {/* Section 3: Current Design Diagnosis & Cognitive Profile */}
         <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-4 print-avoid-break">
           <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">
             Current Design Diagnosis & Cognitive Profile
@@ -371,10 +364,153 @@ export const Step7JourneyPlan: React.FC<Step7JourneyPlanProps> = ({
           )}
         </div>
 
-        {/* Section 4: Redesigned Journey Sequence */}
         <div className="space-y-4">
           <div className="flex items-center justify-between border-b border-stone-200 dark:border-white/15 pb-2">
             <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-[#F1F5F9]">
               Redesigned Journey Sequence ({state.journey.length} Deliberate Stages)
             </h2>
-        
+            <span className="text-xs text-slate-500 dark:text-slate-400">
+              Intentional cognitive allocation
+            </span>
+          </div>
+
+          <div className="space-y-4">
+            {state.journey.map((stage, idx) => {
+              const q = MATRIX_QUADRANTS[stage.quadrantId];
+              return (
+                <div
+                  key={stage.id}
+                  className="bg-white border-2 rounded-xl p-5 shadow-2xs print-avoid-break space-y-3"
+                  style={{ borderColor: q.colors.border }}
+                >
+                  <div className="flex flex-wrap items-center justify-between gap-2 border-b border-stone-100 pb-2.5">
+                    <div className="flex items-center gap-2.5">
+                      <span className="w-6 h-6 rounded-full bg-slate-900 text-white font-bold text-xs flex items-center justify-center">
+                        {idx + 1}
+                      </span>
+                      <span
+                        className="text-xs font-extrabold uppercase px-2 py-0.5 rounded text-white"
+                        style={{ backgroundColor: q.colors.accent }}
+                      >
+                        {q.name}
+                      </span>
+                      <h3 className="text-sm font-bold text-slate-900">
+                        {stage.stageTitle || 'Stage ' + (idx + 1)}
+                      </h3>
+                    </div>
+                    <span className="text-xs text-slate-500 italic">
+                      {q.literacyEmphasis} Literacy · “{q.shortDescription}”
+                    </span>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs">
+                    <div className="bg-stone-50 p-3 rounded-lg border border-stone-200/80">
+                      <span className="font-bold text-slate-700 uppercase tracking-wide block mb-1 text-[11px]">
+                        AI Contribution (Intentionally Delegated):
+                      </span>
+                      <p className="text-slate-800 leading-relaxed">
+                        {stage.delegatedToAI || 'No routine work delegated to AI in this stage.'}
+                      </p>
+                    </div>
+
+                    <div className="bg-teal-50/50 p-3 rounded-lg border border-teal-200/60">
+                      <span className="font-bold text-teal-900 uppercase tracking-wide block mb-1 text-[11px]">
+                        Learner Cognitive Responsibility (Deliberately Retained):
+                      </span>
+                      <p className="text-teal-950 leading-relaxed font-medium">
+                        {stage.retainedForLearner || 'Autonomous cognitive ownership.'}
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="bg-stone-100/60 p-3 rounded-lg border border-stone-200/60 text-xs">
+                    <span className="font-bold text-slate-800 uppercase tracking-wide block mb-0.5 text-[11px]">
+                      Pedagogical Rationale (“Why”):
+                    </span>
+                    <p className="text-slate-700 italic leading-relaxed">
+                      {stage.rationale}
+                    </p>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-4 print-avoid-break">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">
+            Human-Owned Judgement & Final Accountability
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+            <div className="p-3.5 bg-stone-50 rounded-lg border border-stone-200">
+              <span className="font-bold text-slate-800 uppercase tracking-wide block mb-1">
+                Ultimate Demonstration or Artifact:
+              </span>
+              <p className="text-slate-900 leading-relaxed">
+                {state.capability.ultimateDemonstration || 'Not specified'}
+              </p>
+            </div>
+
+            <div className="p-3.5 bg-stone-50 rounded-lg border border-stone-200">
+              <span className="font-bold text-slate-800 uppercase tracking-wide block mb-1">
+                Locus of Final Accountability:
+              </span>
+              <p className="text-slate-900 leading-relaxed font-semibold">
+                {state.capability.finalAccountability || 'Human learner bears 100% accountability.'}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-5 bg-white border border-stone-200 rounded-xl space-y-3 print-avoid-break">
+          <h2 className="text-sm font-bold uppercase tracking-wider text-slate-900">
+            Verified Evidence of Genuine Human Capability
+          </h2>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+            {state.capability.selectedEvidence.map((item) => (
+              <div key={item} className="flex items-center gap-2 text-slate-800 font-medium">
+                <CheckCircle2 className="w-3.5 h-3.5 text-[#5B7945] shrink-0" />
+                <span>{item}</span>
+              </div>
+            ))}
+          </div>
+
+          {state.capability.otherEvidence && (
+            <div className="text-xs text-slate-600 pt-2 border-t border-stone-200">
+              <strong>Additional Assessment Evidence:</strong> {state.capability.otherEvidence}
+            </div>
+          )}
+        </div>
+
+        <div className="p-6 bg-[#F6EEE1]/80 dark:bg-[#1E2638]/70 border border-[#E5DDD0] dark:border-white/10 rounded-2xl print-avoid-break flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <span className="text-[11px] font-extrabold uppercase tracking-widest text-[#DC5300] block">
+              Framework & Research Attribution
+            </span>
+            <p className="text-sm font-bold text-[#232D4B] dark:text-[#F1F5F9]">
+              Human-AI Learning Journey Framework © 2026 Dr Afshin Tanouri
+            </p>
+            <p className="text-xs text-slate-600 dark:text-slate-400">
+              “Building Workforce Capability That Matters in the Age of AI”
+            </p>
+          </div>
+          <div className="shrink-0 flex items-center gap-2">
+            <a
+              href="mailto:afshin.tanouri@flinders.edu.au"
+              className="inline-flex items-center gap-1.5 px-3.5 py-2 bg-[#232D4B] dark:bg-[#FFD300] text-white dark:text-[#232D4B] rounded-xl text-xs font-bold hover:bg-[#1A2238] dark:hover:bg-[#E6BE00] transition-colors shadow-2xs"
+            >
+              <span>afshin.tanouri@flinders.edu.au</span>
+            </a>
+          </div>
+        </div>
+
+        <div className="pt-4 border-t border-stone-200 dark:border-white/10 flex flex-wrap items-center justify-between text-[11px] text-slate-500 dark:text-slate-400 font-mono">
+          <span>AI Learning Journey Designer · Academic Framework</span>
+          <span>Data persists exclusively in this browser</span>
+        </div>
+      </div>
+    </section>
+  );
+};
